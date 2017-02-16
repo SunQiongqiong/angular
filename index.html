@@ -1,0 +1,104 @@
+<!doctype html>
+<html ng-app="app">
+    <head>
+        <title>select</title>
+        <script src="angular.js"></script>
+        <script>
+        var app = angular.module('app',[]);
+        app.controller('selectController',function($scope){
+            $scope.mycity = "北京";
+            $scope.Citys = [
+                {id:1,name:'北京',group:"中国"},
+                {id:2,name:'上海',group:"中国"},
+                {id:3,name:'广州',group:"中国"},
+                {id:4,name:'深圳',group:"中国"},
+                {id:5,name:'成都',group:"中国"},
+                {id:6,name:'厦门',group:"中国"}
+            ];
+            $scope.myVar = false;
+            $scope.toggle = function(){
+                $scope.myVar = !$scope.myVar;
+            }
+
+
+        });
+        app.controller('formController',function($scope){
+            $scope.master = {};
+            $scope.update = function(user){
+                $scope.master = angular.copy(user);
+            }
+            $scope.reset = function(){
+                $scope.user = angular.copy($scope.master);
+            }
+            
+
+        });
+        app.controller('ctl', function($scope){
+                $scope.persons = [
+                    {"name":"xingoo","age":25},
+                    {"name":"zhangsan","age":18},
+                    {"name":"lisi","age":20},
+                    {"name":"wangwu","age":30}
+                ];
+                $scope.order = "age";
+        });
+    </script>
+     <style type="text/css">
+            .css-form input.ng-invalid.ng-dirty {
+                background-color: #FA787E;
+            }
+            .css-form input.ng-valid.ng-dirty {
+                background-color: #78FA89;
+            }
+        </style>
+    </head>
+    <body>
+        <div  ng-controller="selectController">
+            <select type="text" ng-model="mycity" ng-options="city.name as city.name group by city.group for city in Citys"></select>
+            欢迎来到{{mycity}}
+        </div>
+        <button ng-click="toggle()">显示/隐藏</button>
+        <table>
+                <tr><td>num1</td><td>num2</td></tr>
+                <tr>
+                    <td><input type="number" min="0" max="10" ng-model="number1" required ></td>
+                    <td><input type="number" min="2" max="10" ng-model="number2" required ></td>
+                </tr>
+        </table>
+        <hr>
+        <b>Total:</b> {{number1 * number2 | currency}}
+        <!-- 表单 -->
+        <div ng-controller="formController">
+            <form novalidate class="css-form">
+                Name: <input type="text" ng-model="user.name" required /><br>
+                E-mail: <input type="email" ng-model="user.email" required /><br>
+                Age: <input type="number" ng-model="user.age" min="1" max="99" required /><br>
+                Gender: <input type="radio" ng-model="user.gender" value="male"/>male
+                    <input type="radio" ng-model="user.gender" value="female" />female<br>
+                <button ng-click="reset()">reset</button>
+                <button ng-click="update(user)">save</button>
+            </form>
+            <pre>form = {{user | json}}</pre>
+            <pre>master = {{master | json}}</pre>
+<br/>
+
+
+        </div>
+        <div ng-controller="ctl">
+            Search:<input ng-model="query">
+            Sort by:<select ng-model="order">
+                <option value="name">name</option>
+                <option value="age">age</option>
+            </select>
+            <ul class="persons">
+                <li ng-repeat="person in persons | filter:query | orderBy:order">
+                    {{person.name}}
+                    
+                    {{person.age}}
+                </li>
+            </ul>
+        </div>
+
+    </body>
+    
+</html>
