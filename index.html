@@ -5,6 +5,8 @@
         <script src="https://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
         <script>
         var app = angular.module('app',[]);
+
+//        这是一个下拉框 ng-options
         app.controller('selectController',function($scope){
             $scope.mycity = "北京";
             $scope.Citys = [
@@ -14,14 +16,9 @@
                 {id:4,name:'深圳',group:"中国"},
                 {id:5,name:'成都',group:"中国"},
                 {id:6,name:'厦门',group:"中国"}
-            ];
-            $scope.myVar = false;
-            $scope.toggle = function(){
-                $scope.myVar = !$scope.myVar;
-            }
-
-
+            ];    
         });
+        // 表单
         app.controller('formController',function($scope){
             $scope.master = {};
             $scope.update = function(user){
@@ -35,42 +32,50 @@
         });
         app.controller('ctl', function($scope){
                 $scope.persons = [
-                    {"name":"xingoo","age":25},
-                    {"name":"zhangsan","age":18},
-                    {"name":"lisi","age":20},
-                    {"name":"wangwu","age":30}
+                    {"name":"dd","age":25},
+                    {"name":"zz","age":18},
+                    {"name":"qq","age":20},
+                    {"name":"cc","age":30}
                 ];
                 $scope.order = "age";
         });
     </script>
      <style type="text/css">
+            .css-option{height:60px;}
+            .css-option span{color:red;}
+            .css-option select{ height: 30px;font-size: 16px;text-align: center;margin-right: 20px;}
             .css-form input.ng-invalid.ng-dirty {
                 background-color: #FA787E;
             }
             .css-form input.ng-valid.ng-dirty {
                 background-color: #78FA89;
             }
+
         </style>
     </head>
     <body>
-        <div  ng-controller="selectController">
+    <!-- 这是一个下拉框 ng-options -->
+        <div class="css-option" ng-controller="selectController">
             <select type="text" ng-model="mycity" ng-options="city.name as city.name group by city.group for city in Citys"></select>
-            欢迎来到{{mycity}}
+            欢迎来到 <span>{{mycity}}</span>！
         </div>
-        <button ng-click="toggle()">显示/隐藏</button>
+        <!-- 计算器 -->
         <table>
-                <tr><td>num1</td><td>num2</td></tr>
+                <tr><td>num1*</td><td>num2</td></tr>
                 <tr>
-                    <td><input type="number" min="0" max="10" ng-model="number1" required ></td>
-                    <td><input type="number" min="2" max="10" ng-model="number2" required ></td>
+                    <td><input type="number" min="0" max="10"  ng-model="number1" required ></td>
+                    <td><input type="number" min="2" max="10"  ng-model="number2" required ></td>
                 </tr>
         </table>
         <hr>
         <b>Total:</b> {{number1 * number2 | currency}}
+        <div style="margin-top:50px;"></div>
+
         <!-- 表单 -->
         <div ng-controller="formController">
             <form novalidate class="css-form">
-                Name: <input type="text" ng-model="user.name" required /><br>
+                 <label>Name:</label>
+                <input type="text" ng-model="user.name" required /><br>
                 E-mail: <input type="email" ng-model="user.email" required /><br>
                 Age: <input type="number" ng-model="user.age" min="1" max="99" required /><br>
                 Gender: <input type="radio" ng-model="user.gender" value="male"/>male
